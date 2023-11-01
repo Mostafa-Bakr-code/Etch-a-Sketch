@@ -23,9 +23,8 @@ body {
 
 .main {
   display: flex;
-  align-items: center;
+  justify-content: center;
   gap: 100px;
-  margin-left: 100px;
 }
 
 button,
@@ -78,6 +77,13 @@ h1 {
   flex-direction: column;
   width: fit-content;
   align-items: center;
+}
+
+.grid {
+  display: grid;
+  width: 450px;
+  height: 450px;
+  background-color: var(--secondary-light);
 }
 
 /* _________________________________________________________ */
