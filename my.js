@@ -69,7 +69,7 @@ const change_Color = function (e) {
     eraserBtn.classList.contains('active') &&
     (isDrawing || e.type === 'click')
   ) {
-    e.target.style.backgroundColor = '#fefefe';
+    e.target.style.backgroundColor = grid.style.backgroundColor;
   }
 
   if (
