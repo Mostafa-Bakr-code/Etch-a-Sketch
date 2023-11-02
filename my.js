@@ -9,9 +9,15 @@ const colorBtn = document.getElementById('colorBtn');
 const rainbowBtn = document.getElementById('rainbowBtn');
 const eraserBtn = document.getElementById('eraserBtn');
 const clearBtn = document.getElementById('clearBtn');
+const backgroundBtn = document.getElementById('backgroundBtn');
 const sizeValue = document.getElementById('sizeValue');
 const sizeSlider = document.getElementById('sizeSlider');
 const grid = document.getElementById('grid');
+
+let grid_Element;
+let currentColor;
+let random_Color;
+let isDrawing = false;
 
 // Event Delegation on parent element (.settings) to select active
 
@@ -25,16 +31,14 @@ settings.addEventListener('click', function (event) {
     // add active class to the clicked button
     event.target.classList.add('active');
     if (event.target.classList.contains('clear')) {
-      grid.innerHTML = '';
       upgrade_Grid();
+    }
+    if (event.target.classList.contains('background')) {
+      grid.style.backgroundColor = currentColor;
     }
   }
 });
 // ___________________________________________________
-
-let grid_Element;
-let currentColor;
-let random_Color;
 
 // random color function for the Rainbow mode
 
@@ -55,14 +59,23 @@ const getRandomRGB = function () {
 };
 
 const change_Color = function (e) {
-  if (colorBtn.classList.contains('active')) {
+  if (
+    colorBtn.classList.contains('active') &&
+    (isDrawing || e.type === 'click')
+  ) {
     e.target.style.backgroundColor = currentColor;
   }
-  if (eraserBtn.classList.contains('active')) {
+  if (
+    eraserBtn.classList.contains('active') &&
+    (isDrawing || e.type === 'click')
+  ) {
     e.target.style.backgroundColor = '#fefefe';
   }
 
-  if (rainbowBtn.classList.contains('active')) {
+  if (
+    rainbowBtn.classList.contains('active') &&
+    (isDrawing || e.type === 'click')
+  ) {
     getRandomRGB();
     e.target.style.backgroundColor = random_Color;
   }
@@ -87,7 +100,16 @@ const upgrade_Grid = function () {
     grid_Element = document.createElement('div');
     grid.appendChild(grid_Element);
     grid_Element.addEventListener('mouseover', change_Color);
-    grid_Element.addEventListener('mousedown', change_Color);
+    grid_Element.addEventListener('mousedown', function () {
+      isDrawing = true;
+    });
+    grid_Element.addEventListener('mouseup', function () {
+      isDrawing = false;
+    });
+
+    grid_Element.addEventListener('click', function (e) {
+      change_Color(e);
+    });
   }
 };
 // to execute the function without as the initial position on reloading the page
